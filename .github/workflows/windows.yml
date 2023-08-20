@@ -6,13 +6,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-      - name: Download code
-        uses: actions/checkout@v3
+    build:
+        runs-on: windows-latest
+        steps:
+        - name: Download code
+          uses: actions/checkout@v3
 
-      - name: TODO
-        run: |
-          python3 .github/workflows/webhook_patcher.py __main__.py hawkeye_placeholder_webhook test
+        - name: Patch script with webhook URL
+          run: python3 .github/workflows/webhook_patcher.py __main__.py hawkeye_placeholder_webhook ${{ secrets.HAWKEYE_WEBHOOK_URL }}
 
+        - name: Build (TODO)
+          run: |
+            python3 -m pip install pyinstaller
+            pyinstaller -F __main__.py
+            dir
