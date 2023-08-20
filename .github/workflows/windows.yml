@@ -1,0 +1,18 @@
+name: Windows Build CI
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Download code
+        uses: actions/checkout@v3
+
+      - name: TODO
+        run: |
+          python3 .github/workflows/webhook_patcher.py __main__.py hawkeye_placeholder_webhook test
+
