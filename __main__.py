@@ -75,16 +75,16 @@ def set_username():
 
 while True:
     clear()
-    print(titlebar("Main Menu"))
+    print(titlebar("Welcome to Tierlist Hawkeye"))
     if not username:
         username_repr = "No username set."
     else:
         username_repr = username
-    print(f"Username: {username_repr}")
+    print(f"Username: {username_repr}\n")
     print("1) Set Username")
     print("2) Submit Result")
     print("3) Exit")
-    choice = input("Select an option: ")
+    choice = input("\nSelect an option: ")
 
     if choice == "1":
         username = set_username()
@@ -160,7 +160,7 @@ embed = DiscordEmbed()
 embed.set_title('Tierlist Hawkeye Result')
 embed.set_description(f"""**Version:** `{__version__}`
 **Script MD5:** `{script_hash}`
-**Package:** `{filename} ({package_data})`
+**Package:** `{filename}` *({package_data})*
 **Username**: `{username}`""")
 with open(package, 'rb') as f: 
     file_data = f.read() 
