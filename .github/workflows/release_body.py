@@ -1,5 +1,6 @@
 import os
 import hashlib
+import sys
 
 def md5(filename):
     hasher = hashlib.md5()
@@ -12,13 +13,18 @@ def extract_version(script_filename):
     version = None
     with open(script_filename, "r") as script_file:
         for line in script_file.read().splitlines():
-            if line.strip().startswith("version ="):
+            if line.strip().startswith("__version__ ="):
                 version = line.split("=")[1].strip().replace('"', "")
                 break
     return version
 
-exe_filename = "hawkeye.exe"
-script_filename = "__main__.py"
+if len(sys.argv) != 3:
+    print("Usage: release_body.py <executable_filename> <script_filename>")
+    sys.exit(1)
+
+exe_filename = sys.argv[1]
+script_filename = sys.argv[2]
+
 md5_hash = md5(exe_filename)
 version = extract_version(script_filename)
 os.environ["RELEASE_VERSION"] = version

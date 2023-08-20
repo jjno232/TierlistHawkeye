@@ -18,21 +18,18 @@ jobs:
         - name: Patch script with webhook URL
           run: python3 .github/workflows/webhook_patcher.py __main__.py hawkeye_placeholder_webhook ${{ secrets.HAWKEYE_WEBHOOK_URL }}
 
-        - name: Build tool
+        - name: Build tool and export release body
           run: |
             python3 -m pip install pyinstaller
             python3 -m pip install -r requirements.txt
             pyinstaller -F __main__.py
             move dist/__main__.exe hawkeye.exe
-        
-        - name: Write release body
-          run: |
-            python3 .github/workflows/release_body.py
-        
-        - uses: ncipollo/release-action@v1
+            python3 .github/workflows/release_body.py hawkeye.exe __main__.py
+
+        - name: Release the build
+          uses: ncipollo/release-action@v1
           with:
             artifacts: "hawkeye.exe"
             bodyFile: "body.md"
             tag: $env:RELEASE_VERSION
             commit: main
-
