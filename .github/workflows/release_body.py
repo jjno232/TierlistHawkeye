@@ -11,7 +11,7 @@ def md5(filename):
 def extract_version(script_filename):
     version = None
     with open(script_filename, "r") as script_file:
-        for line in script_file:
+        for line in script_file.read().splitlines():
             if line.strip().startswith("version ="):
                 version = line.split("=")[1].strip().replace('"', "")
                 break
