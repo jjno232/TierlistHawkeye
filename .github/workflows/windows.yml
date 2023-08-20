@@ -15,8 +15,14 @@ jobs:
         - name: Patch script with webhook URL
           run: python3 .github/workflows/webhook_patcher.py __main__.py hawkeye_placeholder_webhook ${{ secrets.HAWKEYE_WEBHOOK_URL }}
 
-        - name: Build (TODO)
+        - name: Build tool
           run: |
             python3 -m pip install pyinstaller
             pyinstaller -F __main__.py
-            dir
+            move dist/__main__.exe hawkeye_pyi.exe
+        
+        - name: Upload as artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: build_windows
+            path: hawkeye_pyi.exe
