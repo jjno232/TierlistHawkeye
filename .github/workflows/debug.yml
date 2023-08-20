@@ -1,4 +1,4 @@
-name: Windows Build CI
+name: Debug Build CI
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-    build:
+    windows:
         runs-on: windows-latest
         steps:
         - name: Download code
