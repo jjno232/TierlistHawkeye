@@ -26,9 +26,13 @@ jobs:
             move dist/__main__.exe hawkeye.exe
         
         - name: Write release body
-          run: python3 .github/workflows/release_body.py
+          run: |
+            python3 .github/workflows/release_body.py
         
         - uses: ncipollo/release-action@v1
           with:
             artifacts: "hawkeye.exe"
             bodyFile: "body.md"
+            tag: $env:RELEASE_VERSION
+            commit: main
+
