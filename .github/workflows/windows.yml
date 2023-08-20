@@ -23,14 +23,11 @@ jobs:
         - name: Build tool
           run: |
             python3 -m pip install pyinstaller
-            pyinstaller -F --noupx __main__.py
-            move dist/__main__.exe hawkeye_pyi.exe
-            upx --best --force hawkeye_pyi.exe -o hawkeye_upx.exe
+            pyinstaller -F __main__.py
+            move dist/__main__.exe hawkeye.exe
         
         - name: Upload as artifact
           uses: actions/upload-artifact@v3
           with:
             name: build_windows
-            path: |
-                hawkeye_pyi.exe
-                hawkeye_upx.exe
+            path: hawkeye.exe
