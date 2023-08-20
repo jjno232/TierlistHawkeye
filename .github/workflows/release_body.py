@@ -1,6 +1,14 @@
 import os
+import re
 import hashlib
 import sys
+
+def tag_convert(string):
+    cleaned = string.replace(" ", "").replace("(", "").replace(")", "")
+    valid_identifier = re.sub(r'[^a-zA-Z0-9_]', '_', cleaned)
+    valid = re.sub(r'_+', '_', valid)
+    valid = valid.strip('_')
+    return valid
 
 def md5(filename):
     hasher = hashlib.md5()
@@ -27,7 +35,7 @@ script_filename = sys.argv[2]
 
 md5_hash = md5(exe_filename)
 version = extract_version(script_filename)
-os.environ["RELEASE_VERSION"] = version
+os.environ["RELEASE_VERSION"] = tag_convert(version)
 body = f"""This release was built by GitHub Actions using untouched source code.
 **Version:** {version}
 **MD5:** {md5_hash}"""
