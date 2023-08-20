@@ -7,17 +7,25 @@ __version__ = "v1 (beta)"
 ###############################################
 ###############################################
 
+import os
+import sys
 import hashlib
+
+if getattr(sys, 'frozen', False):
+    application_path = sys.executable
+    application_compiled = True
+else:
+    application_path = os.path.abspath(__file__)
+    application_compiled = False
+
 def md5(fname):
     hash_md5 = hashlib.md5()
     with open(fname, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
-script_hash = md5(__file__)
+script_hash = md5(application_path)
 
-import os
-import sys
 import shutil
 import time
 import getpass
@@ -57,12 +65,13 @@ def set_username():
         clear()
         print(titlebar("Set Username"))
         username = input("Please enter your username: ")
-        if 3 <= len(username) <= 15 and '_' in username and all(c.isalnum() or c == '_' for c in username):
+        print(username)
+        if 3 <= len(username) and len(username) <= 15 and all(c.isalnum() or c == '_' for c in username):
             return username
         else:
             clear()
             print(titlebar("Set Username"))
-            print("Invalid username. Please try again.")
+            getpass.getpass("Invalid username. Press ENTER to try again.")
 
 while True:
     clear()
@@ -101,7 +110,6 @@ temp_folder = os.path.expandvars("%TEMP%")
 output_name = f"tierlisthawkeye_{int(time.time() * 1000)}"
 output_zip = os.path.join(temp_folder, f"{output_name}.zip")
 output_folder = os.path.join(temp_folder, output_name)
-script_file = os.path.abspath(__file__)
 
 def find_logs_folders(root: str) -> list:
     """
@@ -140,8 +148,9 @@ for logs_folder_path in logs_folders:
 print("done.")
 
 print("= Packaging...", end=" ")
-shutil.copy2(__file__, output_folder)
+shutil.copy2(application_path, output_folder)
 package = shutil.make_archive(output_folder, "zip", output_folder)
+package_data = f"platform `{os.name}` compiled `{application_compiled}`"
 print("done.")
 
 print("= Sending package over...", end=" ")
@@ -151,13 +160,18 @@ embed = DiscordEmbed()
 embed.set_title('Tierlist Hawkeye Result')
 embed.set_description(f"""**Version:** `{__version__}`
 **Script MD5:** `{script_hash}`
-**Package:** `{filename}`
+**Package:** `{filename} ({package_data})`
 **Username**: `{username}`""")
 with open(package, 'rb') as f: 
     file_data = f.read() 
 webhook.add_file(file_data, filename)
 webhook.add_embed(embed)
-response = webhook.execute()
+try:
+    response = webhook.execute()
+except Exception:
+    print("failed.")
+    print("Failed to upload. Please check your internet connection or notify staff.")
+    sys.exit(1)
 print("done.")
 
 print("Cleaning up...", end=" ")
