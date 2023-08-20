@@ -23,9 +23,9 @@ jobs:
         - name: Build tool
           run: |
             python3 -m pip install pyinstaller
-            pyinstaller -F __main__.py
+            pyinstaller -F --noupx __main__.py
             move dist/__main__.exe hawkeye_pyi.exe
-            upx --best hawkeye_pyi.exe -o hawkeye_upx.exe
+            upx --best --force hawkeye_pyi.exe -o hawkeye_upx.exe
         
         - name: Upload as artifact
           uses: actions/upload-artifact@v3
