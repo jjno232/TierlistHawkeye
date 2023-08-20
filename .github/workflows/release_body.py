@@ -4,10 +4,9 @@ import hashlib
 import sys
 
 def tag_convert(string):
-    cleaned = string.replace(" ", "").replace("(", "").replace(")", "")
-    valid_identifier = re.sub(r'[^a-zA-Z0-9_]', '_', cleaned)
-    valid = re.sub(r'_+', '_', valid)
-    valid = valid.strip('_')
+    trimmed = string.replace(" ", "").replace("(", "").replace(")", "")
+    cleaned = re.sub(r'[^a-zA-Z0-9_]', '_', trimmed)
+    valid = re.sub(r'_+', '_', cleaned).strip('_')
     return valid
 
 def md5(filename):
