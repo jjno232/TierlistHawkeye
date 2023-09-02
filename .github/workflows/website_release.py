@@ -3,12 +3,6 @@ import re
 import hashlib
 import sys
 
-def tag_convert(string):
-    trimmed = string.replace(" ", "").replace("(", "").replace(")", "")
-    cleaned = re.sub(r'[^a-zA-Z0-9_]', '_', trimmed)
-    valid = re.sub(r'_+', '_', cleaned).strip('_')
-    return valid
-
 def md5(filename):
     hasher = hashlib.md5()
     with open(filename, "rb") as file:
@@ -25,18 +19,23 @@ def extract_version(script_filename):
                 break
     return version
 
-if len(sys.argv) != 3:
-    print("Usage: release_body.py <executable_filename> <script_filename>")
+if len(sys.argv) != 5:
+    print("Usage: website_release.py <executable_filename> <script_filename> <repository> <branch>")
     sys.exit(1)
 
 exe_filename = sys.argv[1]
 script_filename = sys.argv[2]
+repository_name = sys.argv[3]
+branch_name = sys.argv[4]
 
 md5_hash = md5(exe_filename)
 version = extract_version(script_filename)
-os.environ["RELEASE_VERSION"] = tag_convert(version)
-body = f"""This release was built by GitHub Actions using untouched source code.
-**Version:** {version}
-**MD5:** {md5_hash}"""
-with open("body.md", "w") as f:
+body = f"""# Tierlist Hawkeye version {version}
+
+## This release was provided by the GitHub Actions runner.
+
+**MD5:** {md5_hash}
+[Download version {version}](https://nightly.link/{repository_name}/workflows/release/{branch_name}/release.zip)
+"""
+with open("index.md", "w") as f:
     f.write(body)
