@@ -32,15 +32,11 @@ jobs:
             path: hawkeye.exe
         
         - name: Release website
-          run: |
-            python3 .github/workflows/website_release.py hawkeye.exe __main__.py jjno232/TierlistHawkeye main
-            git config --local user.name  ${{ github.actor }}
-            git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-            git add ./index.md
-            git commit -m "Release website"
+          run: python3 .github/workflows/website_release.py hawkeye.exe __main__.py jjno232/TierlistHawkeye main
         
-        - name: Push changes  # push the output folder to your repo
-          uses: ad-m/github-push-action@master
+        - name: Push changes
+          uses: stefanzweifel/git-auto-commit-action@v4
           with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            force: true
+            commit_message: "Release website"
+            file_pattern: "index.md"
+            skip_dirty_check: true
