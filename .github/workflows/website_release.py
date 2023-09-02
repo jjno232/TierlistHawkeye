@@ -19,12 +19,14 @@ def extract_version(script_filename):
                 break
     return version
 
-if len(sys.argv) != 3:
-    print("Usage: website_release.py <executable_filename> <script_filename>")
+if len(sys.argv) != 5:
+    print("Usage: website_release.py <executable_filename> <script_filename> <repository> <branch>")
     sys.exit(1)
 
 exe_filename = sys.argv[1]
 script_filename = sys.argv[2]
+repository_name = sys.argv[3]
+branch_name = sys.argv[4]
 
 md5_hash = md5(exe_filename)
 version = extract_version(script_filename)
