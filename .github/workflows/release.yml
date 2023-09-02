@@ -34,10 +34,9 @@ jobs:
         - name: Release website
           run: |
             python3 .github/workflows/website_release.py hawkeye.exe __main__.py ${{ github.repository }} ${{ github.head_ref }}
-            rm hawkeye.exe
             git config --local user.name  ${{ github.actor }}
             git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-            git add ./hawkeye.exe
+            git add ./index.md
             git commit -m "Release website"
         
         - name: Push changes  # push the output folder to your repo
