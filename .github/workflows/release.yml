@@ -37,7 +37,7 @@ jobs:
             rm hawkeye.exe
             git config --local user.name  ${{ github.actor }}
             git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-            git add hawkeye.exe
+            git add ./hawkeye.exe
             git commit -m "Release website"
         
         - name: Push changes  # push the output folder to your repo
