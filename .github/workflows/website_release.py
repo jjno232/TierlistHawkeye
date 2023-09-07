@@ -35,7 +35,7 @@ body = f"""# Tierlist Hawkeye version {version}
 ## This release was provided by the GitHub Actions runner.
 
 **MD5:** {md5_hash}
-[Download version {version}](https://nightly.link/{repository_name}/workflows/release/{branch_name}/release.zip)
+[Download version {version}](https://nightly.link/{repository_name}/workflows/build/{branch_name}/build.zip)
 """
 with open("index.md", "w") as f:
     f.write(body)
