@@ -37,7 +37,7 @@ jobs:
             python3 setup.py install
             cd ..
             python3 -m pip install -r requirements.txt
-            pyinstaller -F __main__.py
+            python3 -m pyinstaller -F __main__.py
             move dist/__main__.exe hawkeye.exe
         
         - name: Upload as artifact
