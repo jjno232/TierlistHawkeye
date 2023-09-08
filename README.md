@@ -1,4 +1,5 @@
-# Tierlist Hawkeye
+# ABANDONED DUE TO BACKLASH
 
-Tierlist Hawkeye is a utility designed to gather Minecraft
-logs without the hassle and insecure way of doing it yourself.
+got blamed for nuking the server this was gonna be used in
+
+will no longer develop this.
